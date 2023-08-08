@@ -1,23 +1,28 @@
 <template>
-  <div class="home">
-    <!-- Wanna display the items ('projects') only if the project array has a length i.e, has data inside. Coz there's no point cycling through the array if it's empty. -->
-    <div v-if="projects.length">
-      <div class="projectDiv" v-for="project in projects" :key="project.id">
-        <!-- For loops in VUE must have a key attribute, and it must be unique for each item. That's why I picked the id. ID is unique. -->
-
-        <!-- I externalized this template into a separate component (reusable) component. This is because I'm not just gonna display only job title or something. Each project should have a bit more template. I could've done it here though. -->
-
-        <!-- This is the single reusable component to display the projects. -->
-        <!-- "project" is derived from the for-loop. -->
-        <SingleProject :allProjects="project" :bigDiv="projectDiv" />
-        <!-- "projectDiv" is the class name of this mother-div. So I'm sending it as a prop to the 'singleProject.vue' because I want to style it there. That shows css class names can be sent as props. -->
-      </div>
+    <div class="home">
+        <!-- Wanna display the items ('projects') only if the project array has a length i.e, has data inside. Coz there's no point cycling through the array if it's empty. -->
+        <div v-if="projects.length">
+            <div class="biggestdiv">
+                <div class="projectDiv" v-for="project in projects" :key="project.id">
+                    <!-- For loops in VUE must have a key attribute, and it must be unique for each item. That's why I picked the id. ID is unique. -->
+    
+                    <!-- I externalized this template into a separate component (reusable) component. This is because I'm not just gonna display only job title or something. Each project should have a bit more template. I could've done it here though. -->
+    
+                    <!-- This is the single reusable component to display the projects. -->
+                    <!-- "project" is derived from the for-loop. So I sent it as 'props' to the new component. It'll allow us have access to the Projects coz "project" has been used to loop all the "Projects". -->
+    
+                    <SingleProject :individualProject="project" :bigDiv="projectDiv" @delete="handleDelete" />
+                    <!-- @delete is the custom event we passed from the SingleProject component. -->
+    
+                    <!-- "projectDiv" is the class name of this mother-div. So I'm sending it as a prop to the 'singleProject.vue' because I want to style it there. That shows css class names can be sent as props. -->
+                </div>
+            </div>
+        </div>
+    
+        <div v-else>
+            <p style="font-size: 90px; color: tomato">Loading.....</p>
+        </div>
     </div>
-
-    <div v-else>
-      <p style="font-size: 90px; color: tomato">Loading.....</p>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -33,9 +38,11 @@ export default {
     };
   },
   mounted() {
+
     // I used Fetch API. I need to pass in the endpoint which was provided by the json server to get all the jobs. Now this is gonna fetch all the data for me and return them in json format.
     // The below function is asynchronous and therefore returns a Promise.
     fetch(" http://localhost:3000/projects")
+
       // The below function fires a callback function after the above function is done.
       // The below is necessary in order to actually get that data and pass into Javascript, I need to take Response.
       // This is asynchronous and therefore also returns a Promise.
@@ -46,6 +53,25 @@ export default {
 
       // This is needed incase there's any error with the asynchronous tasks up there.
       .catch((err) => console.log(err.message));
+
   },
-};
+  methods: {
+    // specific_id is the "this.individualProject.id" passed with the custom event(delete) inside the SingleProject component.
+    handleDelete(specific_id) {
+
+      this.projects = this.projects.filter((item) => {
+
+        // filter() cycles through an array and fires the function for each item in the array. If I return 'true' for an item in the array, then the array is still gonna keep that particular item, but if I return 'false', that item will be removed from the array.
+
+        return specific_id !== item.id
+
+        // "item" is used to represent all the stuffs in the array.
+        // "specific_id" is used to represent the current stuff we're clicking on.
+        // And by returning false here, it means the array is gonna remove specific_id(current thing we clicked on) from ITEM(all the stuffs in the array).
+        // And 'item.id'? That's because 'specific_id' holds an ID (ID of the current item). So I have to compare ID and ID. That's why I appended ID to 'item'.
+      })
+
+    },
+  }
+}
 </script>
