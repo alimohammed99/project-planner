@@ -128,9 +128,11 @@ export default {
                 // Header of the request, means the data being sent will be in json format
                 headers: { 'Content-Type': 'application/json' },
 
-                // The data being is an object so this is gonna convert it to json string. And that's how json is sent back and forth between clients and the server.
+                // The data being sent is an object so this is gonna convert it to json string. And that's how json is sent back and forth between clients and the server.
                 // The 'JSON.stringify()' static method converts a JavaScript value to a JSON string.
                 body: JSON.stringify({ isComplete: !this.individualProject.isComplete })
+                // I have access to the contents inside the database. So I'm able to point out the 'isComplete' property from the db.
+                //  And here, since I'm toggling the complete, I'm reversing whatever value the 'isComplete' property have in the db for individual data.
             })
 
         },
