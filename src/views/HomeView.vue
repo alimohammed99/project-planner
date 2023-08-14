@@ -11,10 +11,10 @@
                     <!-- This is the single reusable component to display the projects. -->
                     <!-- "project" is derived from the for-loop. So I sent it as 'props' to the new component. It'll allow us have access to the Projects coz "project" has been used to loop all the "Projects". -->
     
-                    <SingleProject :individualProject="project" :bigDiv="projectDiv" @delete="handleDelete" />
+                    <SingleProject :individualProject="project" @delete="handleDelete" @complete="handleComplete" />
                     <!-- @delete is the custom event we passed from the SingleProject component. -->
-    
-                    <!-- "projectDiv" is the class name of this mother-div. So I'm sending it as a prop to the 'singleProject.vue' because I want to style it there. That shows css class names can be sent as props. -->
+                    <!-- @complete is the custom event we passed from the SingleProject component. -->
+  
                 </div>
             </div>
         </div>
@@ -68,10 +68,25 @@ export default {
         // "item" is used to represent all the stuffs in the array.
         // "specific_id" is used to represent the current stuff we're clicking on.
         // And by returning false here, it means the array is gonna remove specific_id(current thing we clicked on) from ITEM(all the stuffs in the array).
+
         // And 'item.id'? That's because 'specific_id' holds an ID (ID of the current item). So I have to compare ID and ID. That's why I appended ID to 'item'.
       })
 
     },
+    handleComplete(specific_id) {
+        // specific_id is the "this.individualProject.id" passed with the custom event(complete) inside the SingleProject component.
+
+      let rhoda = this.projects.find(item => {
+        // find() to find specific item in the an array.
+        // "item" is used to represent all the stuffs in the array.
+
+        return item.id === specific_id
+          // Trying to match the IDs.
+          // "specific_id" is the current project id we're toggling so I need to match it with item which represents each data in the array. And of course it's gonna return true. If it's true, we're good to go.
+      })
+      rhoda.isComplete = !rhoda.isComplete
+        // Toggling the 'isComplete' property.
+    }
   }
 }
 </script>

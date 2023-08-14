@@ -1,37 +1,25 @@
 <template>
-    <div class="project">
+    <div class="project" :class="{ completedProject: individualProject.isComplete }">
+    
+        <!-- This is class binding. If a project's 'isComplete' property is true, it's gonna bind the class "completedProject" to it.
+
+        That means any project that has been marked to be completed, the 'isComplete' property of that project is gonna change to 'true', therefore it's gonna have the class of "completedProject" -->
     
     
     
         <div class="actions">
     
-    
-    
             <h1 title="Click to display project title" @click="toggleShowProjectsDetails" style="color: indigo">
     
-    
-    
                 {{ individualProject.title }}
-    
-    
     
             </h1>
     
     
     
-    
-    
-    
-    
             <div class="icons">
     
-    
-    
                 <span class="material-icons">edit</span>
-    
-    
-    
-    
     
     
     
@@ -39,45 +27,23 @@
     
     
     
-    
-    
-    
-    
-                <span @click="toggleComplete" class="material-icons"> done </span>
-    
-    
+                <span @click="toggleComplete" class="material-icons tick"> done </span>
     
             </div>
     
-    
-    
         </div>
-    
-    
-    
-    
     
     
     
         <div v-if="showProjectsDetails" class="details">
     
-    
-    
             <p style="font-size: 25px; color: brown">
-    
-    
     
                 <em>{{ individualProject.details }}</em>
     
-    
-    
             </p>
     
-    
-    
         </div>
-    
-    
     
     </div>
 </template>
@@ -105,36 +71,40 @@ export default {
 
         // Handles the deletion of Projects.
         deleteProject() {
-
             // This line alone deletes each Project.
             fetch(this.uri, { method: "DELETE" })
-
                 // I want to send the deleted project-id to the home and I can do that via '$emit'. I'm sending it coz after I delete, I want the particular Project to be removed from the Project array entirely. Without doing this, the deletion will only happen in the json-db and not in the browser.
                 .then(() => this.$emit("delete", this.individualProject.id))
                 // When we emit, we often pass along a data.
 
                 // Incase there's any error..
                 .catch((err) => console.log(err.message));
-
         },
 
         // Handles Projects completion. It's a TOGGLE actually coz when the element that has this function is clicked, I'll be toggling between two states......Done & Undone.........Complete & Incomplete.
         toggleComplete() {
-
             // Patch() request is used when we wanna update SOME PARTS of a Resource and not the WHOLE Resource.
             fetch(this.uri, {
-                method: "PATCH",
+                    method: "PATCH",
 
-                // Header of the request, means the data being sent will be in json format
-                headers: { 'Content-Type': 'application/json' },
+                    // Header of the request, means the data being sent will be in json format
+                    headers: { "Content-Type": "application/json" },
 
-                // The data being sent is an object so this is gonna convert it to json string. And that's how json is sent back and forth between clients and the server.
-                // The 'JSON.stringify()' static method converts a JavaScript value to a JSON string.
-                body: JSON.stringify({ isComplete: !this.individualProject.isComplete })
-                // I have access to the contents inside the database. So I'm able to point out the 'isComplete' property from the db.
-                //  And here, since I'm toggling the complete, I'm reversing whatever value the 'isComplete' property have in the db for individual data.
-            })
+                    // The data being sent is an object so this is gonna convert it to json string. And that's how json is sent back and forth between clients and the server.
+                    // The 'JSON.stringify()' static method converts a JavaScript value to a JSON string.
+                    body: JSON.stringify({
+                        isComplete: !this.individualProject.isComplete,
+                    }),
+                    // I have access to the contents inside the database. So I'm able to point out the 'isComplete' property from the db.
+                    //  And here, since I'm toggling the complete, I'm reversing whatever value the 'isComplete' property have in the db for individual data.
 
+                    // I added a callback function { ".then()" } because I wanna emit an event which is gonna make these changes not only reflect in the db, but also on the outside (local data) in the browser. So I'm gonna send the emit function to the homepage.
+                })
+                .then(() => {
+                    this.$emit("complete", this.individualProject.id);
+                })
+                .catch((err) => console.log(err.message));
+            // Incase there's any error..
         },
     },
 };
@@ -148,14 +118,22 @@ export default {
     background-color:red !important;
 }*/
 
-.project,
-.projectDiv {
+.project{
     margin: 50px auto;
     background: white;
     padding: 10px 20px;
     border-radius: 4px;
     box-shadow: 10px 10px 3px rgba(36, 17, 17, 0.1);
     border-left: 7px solid #e90074;
+}
+
+.projectDiv{  margin: 50px auto;
+    background: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    box-shadow: 10px 10px 3px rgba(36, 17, 17, 0.1);
+    border-right: 20px double black;
+    border-bottom: 10px double black;
 }
 
 h1 {
@@ -177,5 +155,18 @@ h1 {
 
 .material-icons:hover {
     color: #777;
+}
+
+.project.completedProject {
+    /* completedProject is the class I binded.*/
+    border-left: 7px solid #00ce89;
+}
+
+
+.project.completedProject .tick {
+    /*Changing the color of the tick icon of completed projects.*/
+    color: #00ce89;
+    font-size:50px;
+    transition: 1s;
 }
 </style>
