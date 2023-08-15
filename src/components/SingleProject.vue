@@ -78,7 +78,7 @@ export default {
                 // When we emit, we often pass along a data.
 
                 // Incase there's any error..
-                .catch((err) => console.log(err.message));
+                .catch((err) => console.warn(err.message));
         },
 
         // Handles Projects completion. It's a TOGGLE actually coz when the element that has this function is clicked, I'll be toggling between two states......Done & Undone.........Complete & Incomplete.
@@ -103,7 +103,7 @@ export default {
                 .then(() => {
                     this.$emit("complete", this.individualProject.id);
                 })
-                .catch((err) => console.log(err.message));
+                .catch((err) => console.warn(err.message));
             // Incase there's any error..
         },
     },
@@ -127,7 +127,8 @@ export default {
     border-left: 7px solid #e90074;
 }
 
-.projectDiv{  margin: 50px auto;
+.projectDiv{  
+    margin: 50px auto;
     background: white;
     padding: 10px 20px;
     border-radius: 4px;
