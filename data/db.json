@@ -2,27 +2,33 @@
   "projects": [
     {
       "id": 1,
-      "title": "Create new Home page banner",
-      "details": "Lorem ipsum",
+      "title": "Create new Home page bannerrraabb",
+      "details": "Lorem ipsumrraabb",
       "isComplete": false
     },
     {
       "id": 2,
-      "title": "Make marketing email",
-      "details": "Lorem ipsum",
+      "title": "Make marketing emailaaavvopo",
+      "details": "Lorem ipsumaaavvopo",
       "isComplete": false
     },
     {
-      "title": "New",
-      "details": "Make a new website",
-      "isComplete": true,
+      "title": "Newwwwwqq",
+      "details": "Make a new websiteeeeeeeeqq",
+      "isComplete": false,
       "id": 3
     },
     {
-      "title": "New Title",
-      "details": "Publish a website",
+      "title": "New Titlesssppqaq",
+      "details": "Publish a websitessssssspppqaq",
       "isComplete": false,
       "id": 4
+    },
+    {
+      "title": "Afternoon",
+      "details": "Good afternoon",
+      "isComplete": false,
+      "id": 5
     }
   ]
 }

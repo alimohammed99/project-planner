@@ -19,7 +19,11 @@
     
             <div class="icons">
     
-                <span class="material-icons">edit</span>
+                <router-link :to="{ name: 'EditProject', params: {xy: individualProject.id} }">
+                    <!-- "xy" is the parameter sent from the router page. -->
+                    <span class="material-icons">edit</span>
+                </router-link>
+                <!-- Because edit is the only icon here that leads to a separate page. Other icons just perform actions. -->
     
     
     

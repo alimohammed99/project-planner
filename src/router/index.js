@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import AddProject from '../views/AddProject.vue'
+import EditProject from '../views/EditProject.vue'
 
 
 // This is to display the AddProject page. This is the Lazy loading approach.
@@ -19,6 +21,17 @@ const routes = [
     name: 'AddProject',
     component: lazyLoad('AddProject')
   },
+  {
+    path: '/Projects/:xy',
+    // route parameter
+    // This enables me to navigate to the specific Project I wanna edit using the Project id.
+    // "xy" stands for the Project id.
+    name: 'EditProject',
+    component: EditProject,
+    props: true
+    // Now the EditProject page will be able to accept properties from anywhere.
+    // This is because I want to send the route parameter(id) from the Projects page to this Edit page as props.
+  }
 ]
 
 const router = createRouter({

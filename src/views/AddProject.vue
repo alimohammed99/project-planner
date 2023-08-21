@@ -1,5 +1,5 @@
 <template>
-    <div style="text-align: center">
+    <div style="text-align: center; margin-top: 7%">
     
         <h1 id="hdd">Add a new project</h1>
     
@@ -70,30 +70,28 @@ export default {
                 isComplete: false,
             };
             fetch("http://localhost:3000/projects/", {
-
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(newProject),
-
-            }).then(() => {
-
-                // "this.$router" is used to redirect.
-                this.$router.push("/");
-                // Pushing another route into the history.
-                // After adding a project, users should be redirected to the homepage('/') to see all projects.
-
-            }).catch((err) => console.warn(err.message));
-             // Incase there's any error..
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(newProject),
+                })
+                .then(() => {
+                    // "this.$router" is used to redirect.
+                    this.$router.push("/");
+                    // Pushing another route into the history.
+                    // After adding a project, users should be redirected to the homepage('/') to see all projects.
+                })
+                .catch((err) => console.warn(err.message));
+            // Incase there's any error..
         },
     },
 };
 </script>
 
-<style scoped>
+<style>
 #hdd {
-    border-left: 20px groove red;
-    border-bottom: 15px double grey;
-    border-right: 20px groove red;
+    border-left: 70px groove red;
+    border-bottom: 20px double grey;
+    border-right: 70px groove red;
     padding: 15px;
     text-transform: uppercase;
 }
@@ -102,6 +100,7 @@ form {
     background: white;
     padding: 20px;
     border-radius: 10px;
+    border-bottom: 20px dashed grey;
 }
 
 textarea:focus,
