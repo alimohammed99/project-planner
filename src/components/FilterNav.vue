@@ -11,21 +11,21 @@
     
             <!-- Filtering and displaying ALL Projects. -->
     
-            <button @click="updateFilter('all')" :class="{ active: current === 'all' }">View All</button>
+            <button @click="updateFilter('all')" :class="{ active: sendIncurrent === 'all' }">View All</button>
             <!-- If the value of current is 'all', i.e, if User clicks on the button 'View all' this button is gonna have class 'active'. -->
     
     
     
             <!-- Filtering and displaying ONGOING Projects. -->
     
-            <button @click="updateFilter('ongoing')" :class="{ active: current === 'ongoing' }">Ongoing</button>
+            <button @click="updateFilter('ongoing')" :class="{ active: sendIncurrent === 'ongoing' }">Ongoing</button>
               <!-- If the value of current is 'ongoing', i.e, if User clicks on the button 'Ongoing' this button is gonna have class 'active'. -->
     
     
     
             <!-- Filtering and displaying COMPLETED Projects. -->
     
-            <button @click="updateFilter('completed')" :class="{ active: current === 'completed' }">Completed</button>
+            <button @click="updateFilter('completed')" :class="{ active: sendIncurrent === 'completed' }">Completed</button>
               <!-- If the value of current is 'completed', i.e, if User clicks on the button 'Completed' this button is gonna have class 'active'. -->
     
         </nav>
@@ -35,8 +35,9 @@
 
 <script>
 export default {
-    props: ['current'],
+    props: ['sendIncurrent'],
     methods: {
+
         // Just because there are different custom arguments passed into the updateFilters up there, I have to represent the different arguments with one keyword here.
         // So "by" stands for 'all', 'ongoing', 'completed'.
 
@@ -54,6 +55,8 @@ export default {
             // So when we emit, we send a data along. Now I'm sending the "by" since that's gonna be the filter to work with in the Home view.
 
             // I used "$event" to get access to this 'by' in the Home view and remember that 'by' holds all the different arguments ('all', 'completed', 'ongoing') up there.
+
+            // So when each of the button is clicked, I'm gonna emit the filter change event and pass the necessary argument up
         },
     },
 };
@@ -73,6 +76,7 @@ export default {
     cursor: pointer;
 }
 
+/*Only one button at a time can have the class 'active'.*/
 .filter__nav button.active{
     color: #555;
 }
