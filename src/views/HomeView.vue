@@ -107,7 +107,7 @@ export default {
                 // "specific_id" is the current project id we're toggling so I need to match it with item which represents each data in the array. And of course it's gonna return true. If it's true, we're good to go.
             })
             rh.isComplete = !rh.isComplete
-            // Toggling the 'isComplete' property.
+            // Toggling the 'isComplete' property, to reverse the value.
         }
     },
     computed: {
