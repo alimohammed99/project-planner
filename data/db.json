@@ -27,7 +27,7 @@
     {
       "title": "Afternoon alone",
       "details": "Good afternoon alone",
-      "isComplete": false,
+      "isComplete": true,
       "id": 5
     }
   ]
